@@ -1,0 +1,145 @@
+@import './var';
+body,
+input {
+    font-family: Helvetica Neue, Heiti SC, Droid Sans, Helvetica;
+}
+
+body,
+ul,
+li,
+ol,
+dd,
+dt,
+dl,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: $deep-gray;
+}
+
+body {
+    min-width: 268px;
+    background: $white;
+}
+
+a {
+    text-decoration: none;
+    color: $deep-gray;
+}
+
+input,
+button {
+    -webkit-appearance: none;
+    border: 0px;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    //去除focus时边框高亮的效果。针对移动端
+    &:focus {
+        outline: none;
+    }
+}
+
+.y-font {
+    font-size: 0.14rem;
+    color: $deep-gray;
+}
+
+.clear:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+}
+
+.mask {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 500;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.home,
+.search,
+.cart,
+.login,
+.signup,
+.orderConfirm,
+.order,
+.address,
+.order-confirm {
+    margin-top: $head-wrap;
+}
+
+.home,
+.user .orderConfirm,
+.order {
+    margin-bottom: $head-wrap;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+//底边虚线
+.bottom-dash {
+    border-bottom: 2px dashed $light-gray;
+}
+
+.bottom-line {
+    border-bottom: 1px solid $white-gray;
+}
+
+.divider {
+    height: 20px;
+    width: 100%;
+    background: $white-gray;
+}
+
+$rem-base-font-size: 100px;
+$UI-resolution-width: 750px;
+$device-widths: 240px,
+320px,
+360px,
+375px,
+414px,
+480px,
+540px,
+640px,
+750px,
+768px,
+1024px,
+1440px;
+@mixin html-font-size() {
+    @each $current-width in $device-widths {
+        @media (min-width: $current-width) {
+            html {
+                $x: $UI-resolution-width / $current-width;
+                font-size: $rem-base-font-size / $x;
+            }
+            body {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@function __($px) {
+    @return $px / $rem-base-font-size * 1rem;
+}
+
+@include html-font-size();
