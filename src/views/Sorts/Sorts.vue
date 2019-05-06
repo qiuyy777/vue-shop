@@ -1,6 +1,6 @@
 <template>
 	<div class="sorts">
-	  	<nav-head @focused="$router.push('/search')"></nav-head>
+	  	<nav-head @focused="jumpToSearch"></nav-head>
 	  	<div class="sort-wrap">	  	
 			<ul class="left">
 				<li 
@@ -27,7 +27,7 @@
 import NavHead from 'components/NavHead'
 import Foot from 'components/Foot'
 import sortsData from 'common/sorts.js'
-
+import {modalControl,forSearch} from 'common/mixins'
 import axios from 'axios'
 export default {
 	name:'Sorts',
@@ -41,6 +41,7 @@ export default {
 	components:{
 		NavHead,Foot
 	},
+	mixins:[modalControl,forSearch],
 	methods:{
 		changebackGround(n){
 			this.toggleClass = !this.toggleClass

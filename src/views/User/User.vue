@@ -231,7 +231,7 @@ export default {
 		padding-left: .28rem;
 		padding-bottom: .1rem;
 		img {
-			width: $header-h;
+			width: .4rem;
 			vertical-align: middle;
 			padding-right: 10px;
 		}

@@ -5,6 +5,7 @@ import axios from 'axios'
 import './assets/font/iconfont.css'
 import VueLazyload from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
+import fastClick from 'fastclick'
 import swiper from 'vue-awesome-swiper'
 import Vuex from 'vuex'
 
@@ -14,6 +15,7 @@ import { getCartCount, } from 'common/mixins.js'
 // 一定记得要引入
 import 'swiper/dist/css/swiper.css'
 
+fastClick.attach(document.body)
 
 Vue.use(infiniteScroll);
 Vue.use(swiper);

@@ -6,7 +6,9 @@
 				<span  @click="changeDelFlag" v-else>取消</span>
 			</p>
 		</nav-head>
-		<cart-item-list class="cart-goods"
+		<cart-item-list 
+		class="cart-goods"
+		v-if="cartList.length>0"
 		:list="cartList"  
 		:numEdit="true" 
 		:checkOption="true" 
@@ -53,7 +55,7 @@
 			return {
 				delItemFlag: false, 
 				cartList: [],
-				checkAllFlag: false,
+				checkAllFlag: false
 			}
 		},
 		computed: {
@@ -72,48 +74,26 @@
 					return item.ifSelected === true
 				})
 				return selectedNum.length
-			}
-
+			},
 		},
 		mounted() {
 			this.getCartList()
+		},
+		beforeDestroy(){
+			this.clearCheck()
 		},
 		mixins:[modalControl],
 		methods:{
 			...mapActions(['updateAll','updateCartCount']),
 			getCartList(){
-					axios.get("/cart/list").then((response) => {
-						let res = response.data
-						if(res.status === "0"){
-								this.cartList = res.result
-								// this.countNum()
-								this.checkCondition()
-						}
-					})
-			},
-			// countNum(){
-			// 	if(this.cartList.length>0){
-			// 		let cartNum = 0
-			// 		this.cartList.forEach((item)=>{
-			// 				cartNum += parseInt(item.productNum)
-			// 		})			
-			// 		this.updateCartCount(cartNum)
-			// 	}else{
-			// 		this.cartList = []
-			// 		this.updateCartCount("0")
-			// 	}
-			// },
-			checkCondition(){
-				if(this.cartList.length > 0){
-					if(this.checkedNum === this.cartList.length ){
-						this.checkAllFlag = true
-					}else{
-						this.checkAllFlag = false
+				axios.get("/cart/list").then((response) => {
+					let res = response.data
+					if(res.status === "0"){
+						this.cartList = res.result
+						this.checkAll()
 					}
-				}else{
-					this.checkAllFlag = false
-				}               
-			},  
+				})
+			},
 			editCart(flag,item){
 				if(flag == 'add'){
 					item.productNum ++ 
@@ -128,6 +108,12 @@
 					productNum:num
 				})
 			},
+			clearCheck(){
+				this.checkAllFlag = false
+				axios.post("/cart/selectAll",{
+					checkAll:this.checkAllFlag
+				})
+			},
 			changeAll(){
 				if (this.cartList.length > 0){
 					this.checkAllFlag = !this.checkAllFlag
@@ -136,21 +122,16 @@
 					})
 					axios.post("/cart/selectAll",{
 						checkAll:this.checkAllFlag
-					}).then((response) => {
-						let res = response.data
-						if(res.status == '0'){
-							this.checkCondition()
-						}
 					})
 				}
 			},
 			selectItem(item){
 				item.ifSelected = !item.ifSelected
-				this.checkCondition()
 				axios.post("/cart/select",{
 					productId:item.productId,
 					itemChecked:item.ifSelected
 				})
+				this.checkAll()
 			},
 			changeDelFlag () {
 				this.delItemFlag = !this.delItemFlag
@@ -164,7 +145,7 @@
 						if(res.status == '0'){                  
 							this.getCartList()
 						}
-					})
+					})	
 				}
 			},
 			checkout(){
@@ -173,10 +154,26 @@
 						path:"/orderconfirm"
 					})
 				}else{
-					this.$refs.modal.showModal('未选中商品')
+					this.showModal('未选中商品')
 				}
+			},
+			checkAll(){
+				if(this.cartList.length > 0 && this.checkedNum === this.cartList.length){
+					this.checkAllFlag = true 
+				}else {
+					this.checkAllFlag = false
+				}         			
 			}
-		}
+		},
+		// watch:{
+		// 	cartList: {
+		// 		immediate: true,
+		// 		deep: true,
+		// 		handler(nw){
+		// 			this.checkAll(nw)
+		// 		}
+		// 	}
+		// }
 	}
 </script>
 <style lang="scss" scoped>
@@ -196,8 +193,9 @@
 	font-size: $font-m;
 	i{      
 		color:$white;
-		font-size: $icon-s;
+		font-size: $icon-m;
 		margin: 0 10px;
+		vertical-align:-1px;
 			
 	}
 	.selected {
@@ -207,15 +205,15 @@
 .checkout,.delete-btn {
 		float: right;
 		span:first-child {
-				padding-right: 10px;
+			padding-right: 10px;
 		}
 		span:last-child {
-				background: $orange;
-				display: inline-block;
-				width: 1.5rem;
-				height: 100%;
-				text-align: center;
-				font-size: $font-l;
+			background: $orange;
+			display: inline-block;
+			width: 1.5rem;
+			height: 100%;
+			text-align: center;
+			font-size: $font-l;
 		}
 }
 </style>

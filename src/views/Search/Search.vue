@@ -8,14 +8,15 @@
               <h4>搜索历史                        
                 <i class="y-font icon-delete" @click="clearSearchHistory"></i>
               </h4>
-              <div class="history-keywords" v-if="searchHistory.length>0">
+              <div class="history-keywords" v-if="searchHistory.length">
+               
                 <span 
                 v-for="(item,index) in searchHistory" 
                 :key="index" 
                 @click="setKeyword(item)">{{item}}
                 </span>
               </div>
-                <p v-else>暂无搜索历史</p>
+              <p v-else>暂无搜索历史</p>
         </div>                   
       </div>
       <ul class="search-result" v-else>
@@ -24,7 +25,7 @@
           @click= "setKeyword(item.productName)" :key="index">
           {{item.productName}}
           </li>
-          <no-result v-show= "!searchResult.length" tag="li"></no-result> 
+          <no-result v-show = "!searchResult.length" tag="li"></no-result> 
       </ul>
     </div>
     <div v-else>    
@@ -70,9 +71,12 @@ export default {
   	},
     computed:{
       ...mapGetters(['searchHistory'])
- },
+    },
     methods:{
       ...mapActions(['saveSearchHistory','deleteSearchHistory','clearSearchHistory']),
+      wordChange(kw) {
+        this.keyword = kw
+      },
       searchWord(){
         this.onloading = true
         axios.get('/home/search',{
@@ -93,12 +97,8 @@ export default {
           this.saveSearchHistory(this.keyword)
         }
       },
-      wordChange(kw) {
-        this.keyword = kw
-      },
       setKeyword(item){
         this.$refs.searchBox.setKeyword(item)
-        this.saveSearchHistory(item)
         this.searchAll()
       },
   },

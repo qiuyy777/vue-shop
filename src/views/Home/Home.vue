@@ -31,13 +31,11 @@ import Pendant from 'components/Pendant'
 import Foot from 'components/Foot'
 import Modal from 'components/Modal'
 
-
 import axios from 'axios'
 
-import {modalControl} from 'common/mixins'
-
+import {modalControl,forSearch} from 'common/mixins'
 export default {
-	mixins:[modalControl],
+	mixins:[modalControl,forSearch],
 	data(){
 		return {
 			page: 0,
@@ -123,11 +121,6 @@ export default {
           this.page++
           this.getGoodsList(true)
         }, 1000)
-    },
-    jumpToSearch(){
-      //解决跳转时的手机键盘呼出
-      this.$refs.searchBox.blur()
-      this.$router.push('/search')
     }
   }		
 }

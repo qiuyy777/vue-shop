@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul class="item-list">		
-			<li v-for="item in list " :key="item.productId" class="bottom-line">
+			<li v-for="item in listData " :key="item.productId" class="bottom-line">
 				<div class="check-icon" v-show = "checkOption">
 					<i  @click="checkItem(item)" class="y-font icon-check" v-bind:class="{'selected':item.ifSelected}"></i>		
 				</div>
@@ -65,6 +65,11 @@ export default {
 		}
 
 	},
+	data(){
+		return {
+			listData:[]
+		}
+	},
 	components: {
 		Loading
 	},
@@ -100,8 +105,11 @@ export default {
 		}
 	},
 	watch:{
-		list(nw){
-			return nw
+		list: {
+			immediate: true,
+			handler (nw) {
+				this.listData = nw
+			}
 		}
 	}
 }
@@ -120,7 +128,7 @@ li {
 	justify-content: space-between;
 	.icon-check {
 		line-height: $itemList-h;
-		font-size: $icon-s;
+		font-size: $icon-m;
 		margin: 0 5px;
 	}
 
@@ -130,14 +138,12 @@ li {
 
 }
 
-.check-icon {
-	width:24px;
-}
 
 .item-desc {
 	flex:1;
 	display: flex;
 	justify-content: start;
+	margin-left:10px;
 	.item-img {
 		a{
 			display:block;
@@ -162,15 +168,15 @@ li {
 }
 
 .item-qty-edit {
-	width:90px;
 	margin-top:20px;
 	span,input {
-		display: block;
 		float: right;
-		padding: 3px 5px;
+		padding: 3px 6px;
 		border:1px solid $orange;
 		text-align: center;
 		font-size: $font-xs;
+		height: 18px;
+		line-height: 18px;
 	}
 
 	span:first-child {
@@ -182,9 +188,10 @@ li {
 	}
 
 	input {
-		max-width: 40px;
+		max-width: 20px;
 		//解决ipad mini4中,chrome浏览器打开,input有圆角
 		border-radius: 0;
+
 	}
 }
 

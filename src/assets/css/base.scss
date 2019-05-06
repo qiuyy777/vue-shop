@@ -1,6 +1,5 @@
 @import './var';
-body,
-input {
+body{
     font-family: Helvetica Neue, Heiti SC, Droid Sans, Helvetica;
 }
 
@@ -17,13 +16,14 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-    list-style: none;
+h6,
+input,
+buttom {
     margin: 0;
     padding: 0;
+    list-style: none;
     color: $deep-gray;
 }
-
 body {
     min-width: 268px;
     background: $white;
@@ -84,8 +84,10 @@ button {
 }
 
 .home,
-.user .orderConfirm,
-.order {
+.user,
+.orderConfirm,
+.order,
+.cart {
     margin-bottom: $head-wrap;
 }
 
