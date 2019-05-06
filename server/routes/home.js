@@ -6,11 +6,7 @@ const mongoose = require('mongoose');
 /* GET home page. */
 var Goods = require('../models/goods');
 
-// DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. 
-// To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
-// 解决方法如下：
-mongoose.connect('mongodb://yy:123456@localhost:27017/ymall', { useNewUrlParser: true })
-    // mongoose.connect('mongodb://127.0.0.1:27017/ymall');
+mongoose.connect('mongodb://localhost:27017/ymall', { useNewUrlParser: true })
 
 mongoose.connection.on('connected', function() {
     console.log('mongodb runs success');
