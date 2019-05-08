@@ -122,7 +122,6 @@ import axios from 'axios'
             },
             doRegist(){
                 if(this.errTip.length === 0){
-                    let _this = this
                     axios.post('/users/signup',{
                         userName:this.userName,
                         userEmail:this.userEmail,
@@ -131,13 +130,13 @@ import axios from 'axios'
                         let res = response.data
                         if(res.status === '0'){
                             this.showModal('注册成功,返回登录页')
-                            this.timer = setTimeout(function(){
-                                _this.closeModal()
-                                _this.$router.push('/login')
+                            this.timer = setTimeout(() => {
+                                this.closeModal()
+                                this.$router.push('/login')
                             },3000)
                             
                         }else{
-                            this.timer = null;
+                            this.timer = null
                         }
                     })
                 }

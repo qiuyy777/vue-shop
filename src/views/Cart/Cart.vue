@@ -85,13 +85,14 @@
 		},
 		mixins:[modalControl],
 		methods:{
-			...mapActions(['updateAll','updateCartCount']),
+			...mapActions(['updateCartCount']),
 			getCartList(){
 				axios.get("/cart/list").then((response) => {
 					let res = response.data
 					if(res.status === "0"){
 						this.cartList = res.result
 						this.checkAll()
+						this.updateCartCount(this.cartList)
 					}
 				})
 			},

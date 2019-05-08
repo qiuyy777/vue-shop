@@ -54,7 +54,7 @@ export default {
 
 .home-sorts {
 	font-size: $font-s;
-	margin-top:.2rem;
+	padding: .2rem 0;
     .swiper-slide {
 		width: 100%;
 		display: flex;

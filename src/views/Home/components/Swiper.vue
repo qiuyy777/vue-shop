@@ -1,7 +1,7 @@
 <template>
 	<div class="home-swiper">
-	  <swiper :options="swiperOption" ref="mySwiper" v-show="list.length>0">
-	    <swiper-slide v-for="item of list" :key="item" v-if="list.length>0">
+	  <swiper :options="swiperOption" ref="mySwiper" v-if=" list.length > 0">
+	    <swiper-slide v-for="item of list" :key="item" v-show=" list.length > 0">
 			<img :src="require('images/'+item)"   class="swiper-img"/>
 	    </swiper-slide>
 	  </swiper>
@@ -31,11 +31,8 @@
 
 <style lang="scss" scoped>
 @import 'css/base.scss';
-.home-swiper{
-	height: 3.75rem;
-}
 .swiper-img{
-	width:100%;
+		width: 100%;
 }
 
 </style>

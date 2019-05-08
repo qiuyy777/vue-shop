@@ -115,11 +115,7 @@ export default {
 							if(res.status == '0'){
 									if(res.result.length>0){
 										this.cartList = res.result
-										let cartNum = 0
-										this.cartList.forEach((item)=>{
-											cartNum += parseInt(item.productNum)
-										})
-										this.updateCartCount(cartNum)
+										this.updateCartCount(this.cartList)
 									}else{
 										this.cartList = []
 										this.updateCartCount('0')

@@ -42,9 +42,9 @@ router.post("/placeOrder", function(req, res, next) {
             let r2 = Math.floor(Math.random() * 10);
             let orderId = `xm${sysDate}${r1}${r2}`;
 
-            let goodsList = doc.cartList.filter(item => item.ifSelected === true);
+            let goodsList = doc.cartList.filter(item => { return item.ifSelected === true });
 
-            let newCartList = doc.cartList.filter(item => item.ifSelected === false);
+            let newCartList = doc.cartList.filter(item => { return item.ifSelected === false });
             doc.cartList = newCartList
 
             let order = {

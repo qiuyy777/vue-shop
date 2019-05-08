@@ -57,6 +57,7 @@
 	import NavHead from 'components/NavHead'
 	import { modalControl} from 'common/mixins'
 	import ItemList from 'components/ItemList'
+	import { mapActions} from 'vuex'
 	export default {		
 		name:'orderConfirm',
 		components:{
@@ -68,6 +69,7 @@
 			return{
 				itemList: [],
 				addr: '',
+				timer: null
 			}
 		},
 		computed:{
@@ -83,10 +85,9 @@
 			},
 			itemChecked(){
 				let itemCheck = []
-				this.itemList.forEach((item)=>{
-					item.ifSelected === true
-					itemCheck.push(item)
-				})
+				itemCheck =	this.itemList.filter((item) => {
+          return item.ifSelected === true
+        })
 				return itemCheck
 			}
 		},
@@ -96,15 +97,12 @@
 		},
 		mixins:[modalControl],
 		methods:{
-			//获取购物车中选中的商品
+			...mapActions(['updateCartCount']),
 			getCartList(){
         axios.get('/cart/list').then((response) => {
             let res = response.data
             if(res.status === '0'){
-							let cartGoods = res.result.filter(item => {
-            		 return item.ifSelected === true
-            	})
-            	this.itemList = cartGoods
+							this.itemList = res.result
             }
         })
       },
@@ -114,7 +112,7 @@
       		let res = response.data
       		if(res.status === '0'){
 	  				let allAddr = res.result
-	  				this.addr = allAddr.addressList.filter(item => item.isDefault === true)
+	  				this.addr = allAddr.addressList.filter((item) => item.isDefault === true)
       		}
       	})
       },
@@ -125,8 +123,14 @@
 						let res = response.data
 						if(res.status === '0'){
 							this.showModal('下单成功')
-							this.$router.push('/home')
-
+							this.timer = setTimeout(() => {
+								this.closeModal()
+								this.getCartList()
+								this.updateCartCount(this.cartList)
+								this.$router.push('/home')
+							},3000)
+						}else{
+							this.timer = null
 						}
 					})
 				}else{

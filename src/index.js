@@ -53,19 +53,10 @@ new Vue({
                 let res = response.data
                 if (res.status === '0') {
                     let cartList = res.result
-                    if (cartList.length > 0) {
-                        let cartNum = 0
-                        cartList.forEach((item) => {
-                            cartNum += parseInt(item.productNum)
-                        })
-                        this.updateCartCount(cartNum)
-                    } else {
-                        this.updateCartCount(0)
-                    }
-
+                    this.updateCartCount(cartList)
                 }
             })
-        },
-    },
+        }
+    }
 
 })
