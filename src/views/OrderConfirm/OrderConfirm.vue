@@ -21,9 +21,6 @@
 					</p>
 				</div>					
 			</div>
-			<div>
-				<span v-for="item in itemList">{{item.isSelected}}</span>
-			</div>
 			<ul class="order-list">
 				<li>
 					<strong>订单详情：</strong>
