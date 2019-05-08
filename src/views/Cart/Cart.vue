@@ -45,7 +45,7 @@
 	import { modalControl} from 'common/mixins.js'
 
 	export default {
-		name:'Cart',
+		name:'cart',
 		components:{
 			NavHead,
 			Modal,
@@ -55,7 +55,8 @@
 			return {
 				delItemFlag: false, 
 				cartList: [],
-				checkAllFlag: false
+				checkAllFlag: false,
+				checkoutFlag: false
 			}
 		},
 		computed: {
@@ -109,10 +110,11 @@
 				})
 			},
 			clearCheck(){
-				this.checkAllFlag = false
-				axios.post("/cart/selectAll",{
-					checkAll:this.checkAllFlag
-				})
+					if(!this.checkoutFlag){
+						axios.post("/cart/selectAll",{
+							checkAll:this.checkAllFlag
+						})
+					}
 			},
 			changeAll(){
 				if (this.cartList.length > 0){
@@ -150,11 +152,13 @@
 			},
 			checkout(){
 				if(this.checkedNum > 0){
+					this.checkoutFlag = true 
 					this.$router.push({
 						path:"/orderconfirm"
 					})
 				}else{
 					this.showModal('未选中商品')
+					this.checkoutFlag = false
 				}
 			},
 			checkAll(){
@@ -164,16 +168,7 @@
 					this.checkAllFlag = false
 				}         			
 			}
-		},
-		// watch:{
-		// 	cartList: {
-		// 		immediate: true,
-		// 		deep: true,
-		// 		handler(nw){
-		// 			this.checkAll(nw)
-		// 		}
-		// 	}
-		// }
+		}
 	}
 </script>
 <style lang="scss" scoped>

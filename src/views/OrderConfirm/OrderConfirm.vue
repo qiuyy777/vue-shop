@@ -9,7 +9,7 @@
 				<p class="edit-addr">
 					<i class="y-font icon-sorts" @click="$router.push('/address')"></i>
 				</p>
-				<div v-if="addr">
+				<div v-if="addr.length>0">
 					<p>
 						<strong>收货人：</strong>{{addr[0].receiver}}
 					</p>
@@ -20,6 +20,9 @@
 						<strong>收货地址：</strong>中华人民共和国{{addr[0].addressDetail}}
 					</p>
 				</div>					
+			</div>
+			<div>
+				<span v-for="item in itemList">{{item.isSelected}}</span>
 			</div>
 			<ul class="order-list">
 				<li>
@@ -36,7 +39,7 @@
 						<strong class="amount">{{totalPrice}}</strong>
 					</span>
 				</li>					
-			</ul>			
+			</ul>
 			<div class="pay-it">
 				<span  
 				@click="sendOrder" 
@@ -81,7 +84,7 @@
 			itemChecked(){
 				let itemCheck = []
 				this.itemList.forEach((item)=>{
-					item.ifSelected === '1'
+					item.ifSelected === true
 					itemCheck.push(item)
 				})
 				return itemCheck
@@ -98,10 +101,10 @@
         axios.get('/cart/list').then((response) => {
             let res = response.data
             if(res.status === '0'){
-            	let cartGoods = res.result
-            	this.itemList = cartGoods.filter((item)=>{
-            		return item.ifSelected === '1'
+							let cartGoods = res.result.filter(item => {
+            		 return item.ifSelected === true
             	})
+            	this.itemList = cartGoods
             }
         })
       },
@@ -111,7 +114,7 @@
       		let res = response.data
       		if(res.status === '0'){
 	  				let allAddr = res.result
-	  				this.addr = allAddr.addressList.filter(item => item.isDefault === '0')
+	  				this.addr = allAddr.addressList.filter(item => item.isDefault === true)
       		}
       	})
       },

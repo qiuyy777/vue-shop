@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="home-swiper">
 	  <swiper :options="swiperOption" ref="mySwiper" v-show="list.length>0">
 	    <swiper-slide v-for="item of list" :key="item" v-if="list.length>0">
 			<img :src="require('images/'+item)"   class="swiper-img"/>
@@ -9,10 +9,10 @@
 </template>
 <script>
   export default {
-    name: 'HomeSwiper',
-	props: {
-		list: Array
-	},
+    name: 'homeSwiper',
+		props: {
+			list: Array
+		},
     data() {
       return {
         swiperOption: {
@@ -21,7 +21,7 @@
         		delay: 5000,
         		disableOnInteraction: false,
         	},
-        	effect: 'fade',
+        	effect: 'fade'
         }
       }
     },
@@ -31,9 +31,9 @@
 
 <style lang="scss" scoped>
 @import 'css/base.scss';
-
-
-
+.home-swiper{
+	height: 3.75rem;
+}
 .swiper-img{
 	width:100%;
 }
